@@ -9,6 +9,7 @@ import TextInput from "../../components/form/TextInput";
 import ImageInput from "../../components/form/ImageInput";
 import AudioInput from "../../components/form/AudioInput";
 import DisableButton from "../../components/form/DisableButton";
+import { toast } from "react-toastify";
 const DashboardNewSong = () => {
   const [songName, setSongName] = useState("");
   const[gener,setGener]=useState("")
@@ -42,10 +43,7 @@ const DashboardNewSong = () => {
   const saveSong = () => {
    
     if (!songImageCover || !audioImageCover ) {
-    //   dispatch({
-    //     type: actionType.SET_ALERT_TYPE,
-    //     alertType: "danger",
-    //   });
+    toast.info('fill all field')
     } else {
     
  

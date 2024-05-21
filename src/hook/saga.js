@@ -134,11 +134,7 @@ function* saveNewSongSaga(action) {
     // Call the API to save the new song
     yield call(saveNewSong, data);
     
-    // After saving the new song, fetch all songs again to update the list
-    const songs = yield call(getAllSongs);
     
-    // // Dispatch an action to update the list of songs in the store
-    yield put(setAllSongs(songs));
 
     // Dispatch an action to set the alert type to success
     yield put(setAlertType('success'));

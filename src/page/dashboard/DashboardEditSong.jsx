@@ -12,6 +12,7 @@ import ImageInput from "../../components/form/ImageInput";
 import DisableButton from "../../components/form/DisableButton";
 import TextInput from "../../components/form/TextInput";
 import { CircularProgress } from "@mui/material";
+import { toast } from "react-toastify";
 const DashboardEditSong = () => {
   
 
@@ -62,16 +63,12 @@ const DashboardEditSong = () => {
       setAudioImageCover(data.song.songURL);
     }
   
-    // console.log(allArtists);
   }, [data,dispatch]);
   
   const saveSong = async() => {
    try {
     if (!songImageCover || !audioImageCover) {
-      dispatch({
-        type: 'user/setAlertType',
-        alertType: "danger",
-      });
+      toast.info('fill all info')
     } else {
      
       const data=     {
@@ -92,9 +89,9 @@ const DashboardEditSong = () => {
        
       
         dispatch({ type: 'user/fetchAllSongs' });
-      //   console.log(res)
+     
         router('/dashboard/songs')
-      // });
+      
       
       
     }
