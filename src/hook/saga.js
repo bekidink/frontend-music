@@ -132,12 +132,11 @@ function* saveNewSongSaga(action) {
     const { data } = action.payload;
 
     // Call the API to save the new song
-    yield call(saveNewSong, data);
+   const song= yield call(saveNewSong, data);
     
     
 
     // Dispatch an action to set the alert type to success
-    yield put(setAlertType('success'));
     
   } catch (error) {
     // Dispatch an action to set the alert type to error if saving fails
