@@ -15,7 +15,7 @@ const Dashboard = () => {
   const alertType = useSelector((state) => state.user.alertType);
   const dispatch=useDispatch()
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-screen h-auto flex flex-col items-center justify-center bg-primary">
       <Header />
       <div className="w-[60%] my-2  p-4 flex items-center justify-evenly  ">
         <NavLink
@@ -37,9 +37,7 @@ const Dashboard = () => {
         </NavLink>
        
       </div>
-      <span className='md:hidden' >
-    <BiMenu className='w-6 h-6 cursor-pointer'/>
-</span>
+     
 
       <div className="my-4 w-full p-4">
         <Routes>

@@ -8,7 +8,7 @@ const DashboardSongs = () => {
   
   return (
     
-    <div className="w-full p-4 flex items-center justify-center flex-col">
+    <div className="w-screen p-4 flex items-center justify-center flex-col">
       <div className="w-full flex my-3  gap-20">
         <NavLink
           to={"/dashboard/newSong"}

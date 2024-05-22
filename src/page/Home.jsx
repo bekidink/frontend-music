@@ -24,9 +24,9 @@ const Home = () => {
   }, [allSongs, dispatch]);
 
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-screen h-auto flex flex-col items-center justify-center bg-primary">
       <Header />
-      <div className="w-full mt-5 grid grid-cols-4 gap-3 items-center justify-evenly">
+      <div className="w-screen mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3 items-center justify-evenly">
          {!allSongs && <CircularProgress/>}
           
             {/* {allSongs && allSongs.map((artist, artistIndex) => (

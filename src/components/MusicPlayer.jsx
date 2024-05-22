@@ -31,21 +31,20 @@ useEffect(()=>{
 },[allSongs,songIndex])
   return (
    
-    <div className="w-full flex items-center gap-3 ">
-      <div className={`w-full items-center gap-3 p-4 flex relative`}>
+    <div className="w-screen flex items-center gap-3 ">
+      <div className={`w-screen items-center gap-3 p-4 flex relative`}>
         <img
           src={music.songImageURL
           }
           className="w-40 h-20 object-cover rounded-md"
         />
         <div className="flex items-start flex-col">
-          <p className="text-xl text-headingColor font-semibold">
+          <p className="lg:text-xl text-sm text-headingColor font-semibold">
             {`${
              music.songName.length > 15
                 ? music.songName.slice(0, 15)
                 : music.songName
             }`}
-            <span className="text-base">{music.songName}</span>
           </p>
           <p className="text-textColor">
             {allSongs[songIndex]?.artist}

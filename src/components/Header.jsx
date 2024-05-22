@@ -8,7 +8,7 @@ const Header = () => {
   
   
   return (
-    <header className="flex items-center w-full p-4 md:py-2 md:px-6">
+    <header className="flex items-center w-screen p-4 md:py-2 md:px-6">
       <NavLink to={"/"}>
       </NavLink>
       <ul className="flex items-center justify-center ml-7">
