@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TextInput from "../../components/form/TextInput";
 import ImageInput from "../../components/form/ImageInput";
 import AudioInput from "../../components/form/AudioInput";
 import DisableButton from "../../components/form/DisableButton";
 import { toast } from "react-toastify";
-const DashboardNewSong = () => {
+import { getOneSong } from "../../api";
+const DashboardNewSong = ({isEdit}) => {
   const [songName, setSongName] = useState("");
   const[gener,setGener]=useState("")
   const dispatch=useDispatch()
@@ -20,6 +21,8 @@ const DashboardNewSong = () => {
   
   
   const [isimageLoading, setIsImageLoading] = useState(false);
+  const [isAlbumImageLoading, setIsAlbumImageLoading] = useState(false);
+  const [isArtistImageLoading, setIsArtistImageLoading] = useState(false);
   const [songImageCover, setSongImageCover] = useState(null);
   const [imageUploadProgress, setImageUploadingProgress] = useState(false);
   const [audioImageCover, setAudioImageCover] = useState(null);
@@ -35,10 +38,36 @@ const DashboardNewSong = () => {
   
   const [albumName, setAlbumName] = useState("");
   const router=useNavigate()
+  const [data,setData]=useState(null)
+  const {id}=useParams()
   useEffect(() => {
+
+    if(isEdit){
+      if(!data){
+        getOneSong(id).then((data) => {
+        
+          setData(data.data)
+          // setData(data.song);
+         
+         
+        });
+      }else{
+        console.log(data)
+        setSongName(data.song.songName);
+      setAlbumImageCover(data.albumImageURL)
+      setArtistImageCover(data.artistImageURL);
+      setArtistName(data.artistName);
+      setAlbumName(data.albumName
+      );
+      setGener(data.song.category)
+      setSongImageCover(data.song.songImageURL
+      );
+      setAudioImageCover(data.song.songURL);
+      }
+     
+    }
     
-    
-  }, [allArtists,allAlbum,dispatch]);
+  }, [isEdit,data,dispatch]);
   
   const saveSong = () => {
    
@@ -66,12 +95,37 @@ const DashboardNewSong = () => {
         ]
     }
     
+    
       
       
-  
-      dispatch({type:"user/saveNewSong",payload:{data}})
-      // dispatch({type:"user/user/fetchAllSongs"})
-      router('/dashboard/songs')
+   if(isEdit){
+    const updatedata=     {
+      "artistName": artistName,
+      "artistImageURL": artistImageCover,
+      
+          
+              "albumName": albumName,
+              "albumImageURL":albumnImageCover,
+              
+                      "songName": songName,
+                      "songImageURL": songImageCover,
+                      "songURL": audioImageCover,
+                      "category": gener
+                
+  }
+    dispatch({ type: 'user/updateSong',payload:{updatedata,id} })
+       
+      
+    dispatch({ type: 'user/fetchAllSongs' });
+ 
+    router('/dashboard/songs')
+   }else{
+    dispatch({type:"user/saveNewSong",payload:{data}})
+    // dispatch({type:"user/user/fetchAllSongs"})
+    dispatch({ type: 'user/fetchAllSongs' });
+    router('/dashboard/songs')
+   }
+      
       
     }
   };
@@ -94,13 +148,13 @@ const DashboardNewSong = () => {
     <p className="text-xl font-semibold text-headingColor ">Artist Details</p>
     
     <TextInput name={artistName} setName={setArtistName} placeholder={'Artist Name'}/>
-   <ImageInput isimageLoading={isimageLoading} setIsImageLoading={setIsImageLoading} imageUploadProgress={imageUploadProgress} setImageUploadingProgress={setImageUploadingProgress} ImageCover={artistImageCover} setImageCover={setArtistImageCover} url={'artist'}/>
+   <ImageInput isimageLoading={isArtistImageLoading} setIsImageLoading={setIsArtistImageLoading} imageUploadProgress={imageUploadProgress} setImageUploadingProgress={setImageUploadingProgress} ImageCover={artistImageCover} setImageCover={setArtistImageCover} url={'artist'}/>
    
   
 
     <p className="text-xl font-semibold text-headingColor my-3">Album Details</p>
    <TextInput name={albumName} setName={setAlbumName} placeholder={'Album Name'}/>
-     <ImageInput isimageLoading={isimageLoading} setIsImageLoading={setIsImageLoading} imageUploadProgress={imageUploadProgress} setImageUploadingProgress={setImageUploadingProgress} ImageCover={albumnImageCover} setImageCover={setAlbumImageCover} url={'album'}/>
+     <ImageInput isimageLoading={isAlbumImageLoading} setIsImageLoading={setIsAlbumImageLoading} imageUploadProgress={imageUploadProgress} setImageUploadingProgress={setImageUploadingProgress} ImageCover={albumnImageCover} setImageCover={setAlbumImageCover} url={'album'}/>
    
 <TextInput setName={setGener} name={gener}  placeholder={'Genre Name'}/>
 <div className="flex items-center justify-center w-60 cursor-pointer p-4">

@@ -5,7 +5,7 @@ import {
   setAlertType,
   setIsSongPlaying,
   setSongIndex,
-  
+  setSong,
   setStat,
   setAlbumIndex,
   setArtistIndex,
@@ -14,7 +14,7 @@ import {
 import { 
  
   getAllSongs, 
-  
+  getOneSong,
   saveNewSong,
  
   updateSong,
@@ -82,12 +82,27 @@ function* setAlertTypeSaga(action) {
     console.error('Error setting alert type:', error);
   }
 }
+function* getSongSaga(action) {
+  try {
+    const {  id } = action.payload;
+    // // Call the API function to update the song
+    const song = yield call(getOneSong,  id);
+    // // Handle the successful update
+    if(song){
+      yield put(setSong(song));
+    }
+  } catch (error) {
+    // Handle errors if necessary
+    // Dispatch an action to set error alert
+    yield put(setAlertType('error'));
+  }
+}
 // sag for update Song
 function* updateSongSaga(action) {
   try {
-    const { data, id } = action.payload;
+    const {updatedata, id } = action.payload;
     // // Call the API function to update the song
-    const updatedSong = yield call(updateSong, data, id);
+    const updatedSong = yield call(updateSong,updatedata, id);
     // // Handle the successful update
     
   } catch (error) {
@@ -152,6 +167,7 @@ export default function* userSaga() {
    
     // song
     takeLatest('user/fetchAllSongs', fetchAllSongsSaga),
+    takeLatest('user/fetchSong',getSongSaga),
     takeLatest('user/setSongIndex', setSongIndexSaga),
     takeLatest('user/setSongPlaying', setSongPlayingSaga),
     takeLatest('user/saveNewSong', saveNewSongSaga),

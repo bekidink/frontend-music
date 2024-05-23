@@ -4,6 +4,7 @@ export const initialState = {
   user: null,
   stat:null,
   allSongs: null,
+  song:null,
   alertType: null,
   songIndex: 0,
   artistIndex:0,
@@ -24,7 +25,9 @@ export const userSlice = createSlice({
     setAllSongs: (state, action) => {
       state.allSongs = action.payload;
     },
-    
+    setSong:(state,action)=>{
+state.song=action.payload;
+    },
     setAlertType: (state, action) => {
       state.alertType = action.payload;
     },
@@ -49,7 +52,7 @@ export const userSlice = createSlice({
 export const {
   
   setAllSongs,
-  
+  setSong,
   setAlertType,
   setSongIndex,
   setIsSongPlaying,

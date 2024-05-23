@@ -9,7 +9,6 @@ import { BiMenu } from "react-icons/bi";
 import DashboardHome from "./DashboardHome";
 import DashboardSongs from "./DashboardSongs";
 import DashboardNewSong from "./NewSong";
-import DashboardEditSong from "./DashboardEditSong";
 import { MusicNote } from "@mui/icons-material";
 const Dashboard = () => {
   const alertType = useSelector((state) => state.user.alertType);
@@ -44,9 +43,9 @@ const Dashboard = () => {
           <Route path="/home" element={<DashboardHome />} />
           <Route path="/songs" element={<DashboardSongs />} />
         
-          <Route path="/newSong" element={<DashboardNewSong />} />
+          <Route path="/newSong" element={<DashboardNewSong  isEdit={false} />} />
          
-          <Route path="/song/edit/:id" element={<DashboardEditSong />} />
+          <Route path="/song/edit/:id" element={<DashboardNewSong isEdit={true} />} />
         </Routes>
       </div>
     </div>
