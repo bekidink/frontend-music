@@ -1,18 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-export default function TextInput({name,setName,placeholder}) {
+const TextInput = ({ register, name, placeholder, error }) => {
   const handlePaste = (event) => {
     event.preventDefault(); // Prevent default paste behavior
-    // Optionally, you can show a message or perform some action to handle the paste attempt
   };
+
   return (
-    <input
-        className="w-full my-3 p-3 rounded-md text-base font-semibold text-textColor outline-none border shadow-sm border-gray-300 bg-transparent"
+    <div className="w-full my-3">
+      <input
+        className={`w-full p-3 rounded-md text-base font-semibold text-textColor outline-none border shadow-sm ${
+          error ? 'border-red-500' : 'border-gray-300'
+        } bg-transparent`}
         type="text"
         placeholder={placeholder}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        {...register(name, { required: `${placeholder} is required` })}
         onPaste={handlePaste}
       />
-  )
-}
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+    </div>
+  );
+};
+
+export default TextInput;
