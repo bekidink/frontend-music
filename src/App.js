@@ -6,6 +6,7 @@ import MusicPlayer from "./components/MusicPlayer";
 import {  useSelector } from "react-redux";
 import Dashboard from "./page/dashboard/Dashboard";
 import Home from "./page/Home";
+import SearchPage from "./page/SearchPage";
 function App() {
   
   const isSongPlaying = useSelector((state) => state.user.isSongPlaying);
@@ -20,6 +21,7 @@ function App() {
           {/* <Route path="/login" element={<Login setAuth={setAuth} />} /> */}
           <Route path="/*" element={<Home />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/search" element={<SearchPage/>}/>
         </Routes>
         {isSongPlaying && (
           <motion.div

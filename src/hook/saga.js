@@ -9,7 +9,10 @@ import {
   setStat,
   setAlbumIndex,
   setArtistIndex,
-  SetMusic
+  SetMusic,
+  setSearchSong,
+  SetIsSearch,
+  SetSearchBy
 } from './slice';
 import { 
  
@@ -21,9 +24,11 @@ import {
   deleteSong,
 
  
-  getStat
+  getStat,
+  searchSong
 } from '../api';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -52,17 +57,49 @@ function* fetchAllSongsSaga() {
   }
 }
 
-// Saga for set songIndex
-
-
 function* setSongIndexSaga(action) {
   try {
-    // Assuming action.payload contains the song index
-    yield put(setSongIndex(action.payload));
+    console.log('setSongIndexSaga action:', action);
+    const { songIndex } = action.payload || {};
+    if (songIndex === undefined) {
+      throw new Error('Payload is undefined');
+    }
+    console.log('setSongIndexSaga payload:', songIndex);
+    yield put(setSongIndex(songIndex));
   } catch (error) {
-    // Handle error if needed
+    console.log('Error in setSongIndexSaga:', error.message);
   }
 }
+
+function* setAlbumIndexSaga(action) {
+  try {
+    console.log('setAlbumIndexSaga action:', action);
+    const { albumIndex } = action.payload || {};
+    if (albumIndex === undefined) {
+      throw new Error('Payload is undefined');
+    }
+    console.log('setAlbumIndexSaga payload:', albumIndex);
+    yield put(setAlbumIndex(albumIndex));
+  } catch (error) {
+    console.log('Error in setAlbumIndexSaga:', error.message);
+  }
+}
+
+function* setArtistIndexSaga(action) {
+  try {
+    console.log('setArtistIndexSaga action:', action);
+    const { artistIndex } = action.payload || {};
+    if (artistIndex === undefined) {
+      throw new Error('Payload is undefined');
+    }
+    console.log('setArtistIndexSaga payload:', artistIndex);
+    yield put(setArtistIndex(artistIndex));
+  } catch (error) {
+    console.log('Error in setArtistIndexSaga:', error.message);
+  }
+}
+
+
 // saga for setSongPlaying
 function* setSongPlayingSaga(action) {
   try {
@@ -99,15 +136,19 @@ function* getSongSaga(action) {
 }
 // sag for update Song
 function* updateSongSaga(action) {
+  
   try {
-    const {updatedata, id } = action.payload;
+    const {data, id ,navigate} = action.payload;
     // // Call the API function to update the song
-    const updatedSong = yield call(updateSong,updatedata, id);
-    // // Handle the successful update
     
+    const updatedSong = yield call(updateSong,data, id,navigate);
+    // // Handle the successful update
+
+ 
   } catch (error) {
     // Handle errors if necessary
     // Dispatch an action to set error alert
+    console.log(error)
     yield put(setAlertType('error'));
   }
 }
@@ -144,10 +185,10 @@ function* setMusicSaga(action){
 function* saveNewSongSaga(action) {
   try {
     // Extract the data of the new song from the action payload
-    const { data } = action.payload;
+    const { songData,navigate } = action.payload;
 
     // Call the API to save the new song
-   const song= yield call(saveNewSong, data);
+   const song= yield call(saveNewSong, songData,navigate);
     
     
 
@@ -156,6 +197,24 @@ function* saveNewSongSaga(action) {
   } catch (error) {
     // Dispatch an action to set the alert type to error if saving fails
     yield put(setAlertType('error'));
+  }
+}
+
+function* searchSongSaga(action) {
+  try {
+    yield put(SetIsSearch(true))
+    const { query ,navigate} = action.payload;
+   
+   const songs= yield call(searchSong, query,navigate);
+   if(songs){
+    yield put(setSearchSong(songs));
+    
+  }
+  yield put(SetIsSearch(false))
+  yield put(SetSearchBy(query))
+  } catch (error) {
+    // Dispatch an action to set the alert type to error if saving fails
+    yield put(SetIsSearch(false))
   }
 }
 // Other sagas for song, artist, and album CRUD operations...
@@ -173,11 +232,11 @@ export default function* userSaga() {
     takeLatest('user/saveNewSong', saveNewSongSaga),
     takeLatest('user/updateSong', updateSongSaga),
     takeLatest('user/deleteSong', deleteSongSaga),
-
+    takeLatest('user/searchSong', searchSongSaga),
     takeLatest('user/setAlertType', setAlertTypeSaga),
+    takeLatest('user/setAlbumIndex', setAlbumIndexSaga),
+    takeLatest('user/setArtistIndex', setArtistIndexSaga),
     takeLatest('user/setMusic',setMusicSaga),
-   
-    
     takeLatest('stat',fetchStat)
    
    

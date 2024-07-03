@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import SongCard from "./card/PlayCard";
+import { useSelector } from "react-redux";
 
-const SongsContainer = ({ data, artistIndex,artistName }) => {
+const SongsContainer = ({ data, artistIndex,artistName,albumIndex }) => {
+  const isSearch = useSelector((state) => state.user.isSearch);
   const albums = data;
- console.log(albums.albumName,'alb')
   return (
     <>
-     {data && albums.songs.map((song, i) => (
-          <SongCard data={song} artistName={artistName} artistIndex={artistIndex} albumIndex={i} />
+     {albums && !isSearch && albums.songs.map((song, i) => (
+          <SongCard data={song} artistName={artistName} artistIndex={artistIndex} albumIndex={albumIndex} songIndex={i} key={i}/>
+      ))}
+      {albums && isSearch && albums.songs.map((song, i) => (
+          <SongCard data={song} artistName={artistName} artistIndex={artistIndex} albumIndex={albumIndex} songIndex={i} key={i} />
       ))}
     </>
-    
   );
 };
 

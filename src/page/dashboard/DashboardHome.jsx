@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TotalStat from "../../components/TotalStat";
 import DetailStat from "../../components/DetailStat";
+import StatisticsTable from "../../components/table/StatTable";
+import StatisticsDisplay from "../../components/table/StatTable";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -60,37 +62,10 @@ const DashboardHome = () => {
   }, [stat ,dispatch]);
   return (
 
-<Box sx={{ width: '100%' }}>
-<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-  <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-    <Tab label="Total" {...a11yProps(0)} />
-    <Tab label="Songs in Every Genre" {...a11yProps(1)} />
-    <Tab label="Songs of Artist" {...a11yProps(2)} />
-    <Tab label="Artist Album" {...a11yProps(3)} />
-    <Tab label="Album Songs" {...a11yProps(4)} />
-  </Tabs>
-</Box>
-<CustomTabPanel value={value} index={0}>
+<div className="App">
   {!stat && <CircularProgress/>}
- {stat&& <TotalStat stat={stat}/>}
-</CustomTabPanel>
-<CustomTabPanel value={value} index={1}>
-  {!stat && <CircularProgress/>}
- {stat&& <DetailStat stat={stat.songsByGenre}/>}
-</CustomTabPanel>
-<CustomTabPanel value={value} index={2}>
-  {!stat && <CircularProgress/>}
-  { stat && <DetailStat stat={stat.songsByArtist}/>}
-</CustomTabPanel>
-<CustomTabPanel value={value} index={3}>
-{!stat && <CircularProgress/>}
-  { stat && <DetailStat stat={stat.albumsByArtist}/>}
-</CustomTabPanel>
-<CustomTabPanel value={value} index={4}>
-{!stat && <CircularProgress/>}
- {stat && <DetailStat stat={stat.songsInAlbum}/>}
-</CustomTabPanel>
-</Box>
+      {stat&& <StatisticsDisplay data={stat} />}
+    </div>
   );
 };
 export default DashboardHome;

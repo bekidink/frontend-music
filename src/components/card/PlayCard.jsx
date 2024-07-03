@@ -1,16 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
+import { setAlbumIndex, setArtistIndex, setSongIndex } from "../../hook/slice";
 
-const SongCard = ({ artistName, data, artistIndex, albumIndex }) => {
+const SongCard = ({ artistName, data, artistIndex, albumIndex,songIndex }) => {
   const isSongPlaying = useSelector((state) => state.user.isSongPlaying);
   const dispatch = useDispatch();
-
   const addToContext = () => {
-    dispatch({ type: 'user/setMusic', payload: data });
+
+    // dispatch({ type: 'user/setMusic', payload: data });
+   
+    console.log(songIndex,albumIndex,artistIndex)
+    dispatch({ type: 'user/setSongIndex', payload: { songIndex } });
+    dispatch({ type: 'user/setAlbumIndex', payload: { albumIndex } });
+    dispatch({ type: 'user/setArtistIndex', payload: { artistIndex } });
     if (!isSongPlaying) {
       dispatch({ type: 'user/setSongPlaying', payload: true });
     }
+    
   };
 
   return (

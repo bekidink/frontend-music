@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from './hook/store';
 
@@ -15,12 +16,13 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
     <Router>
-      <ToastContainer/>
+     
       
       <App />
        
     
     </Router>
+    <ToastContainer/>
     </Provider>
   </React.StrictMode>
 );
