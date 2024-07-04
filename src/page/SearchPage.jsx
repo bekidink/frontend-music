@@ -1,62 +1,143 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { ChevronRight, Home } from "@mui/icons-material";
+import styled from "@emotion/styled";
+
 import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
-import { ChevronRight, Home } from "@mui/icons-material";
-import { NavLink } from "react-router-dom";
+
+const Container = styled.div`
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const NavWrapper = styled.nav`
+  display: flex;
+  margin-bottom: 2rem;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+  margin-top: 1.25rem;
+`;
+
+const NavList = styled.ol`
+  display: inline-flex;
+  align-items: center;
+  > * + * {
+    margin-left: 0.25rem;
+  }
+  @media (min-width: 768px) {
+    > * + * {
+      margin-left: 0.5rem;
+    }
+  }
+`;
+
+const NavItem = styled.li`
+  display: inline-flex;
+  align-items: center;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  &:hover {
+    color: #2563eb;
+  }
+`;
+
+const NavText = styled.span`
+  margin-left: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  &:hover {
+    color: #2563eb;
+  }
+`;
+
+const ChevronIcon = styled(ChevronRight)`
+  width: 0.75rem;
+  height: 0.75rem;
+  color: #9ca3af;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+`;
+
+const SongsGrid = styled.div`
+  width: 100vw;
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-evenly;
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+`;
+
 export default function SearchPage() {
-    const dispatch = useDispatch();
   const searchBy = useSelector((state) => state.user.searchBy);
   const searchSong = useSelector((state) => state.user.searchSong);
   const isSearch = useSelector((state) => state.user.isSearch);
-  const [isLoading, setIsLoading] = useState(false);
-
-  
+  const [isLoading] = useState(false);
 
   return (
-    <div className="w-screen h-auto flex flex-col  justify-center ">
-    <Header />
-    <nav className="flex mb-8 mx-10 my-5" aria-label="Breadcrumb">
-  <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-    <li className="inline-flex items-center">
-      <NavLink href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-        <Home/>
-        Home
-      </NavLink>
-    </li>
-    <li >
-      <div className="flex items-center">
-        <ChevronRight className='rtl:rotate-180 w-3 h-3 text-gray-400 mx-1'/>
-        <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-         Search Result
-        </span>
-      </div>
-    </li>
-    {searchBy && <li >
-      <div className="flex items-center">
-        <ChevronRight className='rtl:rotate-180 w-3 h-3 text-gray-400 mx-1'/>
-        <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
-         {searchBy}
-        </span>
-      </div>
-    </li>}
-   
-  </ol>
-</nav>
-    <div className="w-screen mt-5 grid grid-cols-2 lg:grid-cols-4 gap-3 items-center justify-evenly">
-       {isSearch && <div className="flex items-center"> <CircularProgress/></div>}
-      {!isSearch && searchBy && !searchSong && <div>No Search Found For {searchBy}</div>}
-      
-      {!isSearch && searchSong && searchSong.map((artist,i)=>{
-      return  artist.albums.map((album,index)=>(
-        <SongsContainer key={index} data={album} artistIndex={i} artistName={artist.artistName} albumIndex={index}/>
-        ))
-       })}
-         
-       
-      
-    </div>
-  </div>
-  )
+    <Container>
+      <Header />
+      <NavWrapper aria-label="Breadcrumb">
+        <NavList>
+          <NavItem>
+            <StyledNavLink to="/">
+              <Home />
+              Home
+            </StyledNavLink>
+          </NavItem>
+          <NavItem>
+            <div css={{ display: 'flex', alignItems: 'center' }}>
+              <ChevronIcon />
+              <NavText>Search Result</NavText>
+            </div>
+          </NavItem>
+          {searchBy && (
+            <NavItem>
+              <div css={{ display: 'flex', alignItems: 'center' }}>
+                <ChevronIcon />
+                <NavText>{searchBy}</NavText>
+              </div>
+            </NavItem>
+          )}
+        </NavList>
+      </NavWrapper>
+      <SongsGrid>
+        {isSearch && (
+          <div css={{ display: 'flex', alignItems: 'center' }}>
+            <CircularProgress />
+          </div>
+        )}
+        {!isSearch && searchBy && searchSong?.length===0 && (
+          <div>No Search Found For {searchBy}</div>
+        )}
+        {!isSearch && searchSong && searchSong.map((artist, i) =>
+          artist.albums.map((album, index) => (
+            <SongsContainer
+              key={index}
+              data={album}
+              artistIndex={i}
+              artistName={artist.artistName}
+              albumIndex={index}
+            />
+          ))
+        )}
+      </SongsGrid>
+    </Container>
+  );
 }

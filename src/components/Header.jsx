@@ -1,57 +1,160 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { isActiveStyles, isNotActiveStyles } from "../utils/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Search } from "@mui/icons-material";
 import { useForm } from "react-hook-form";
+import styled from "@emotion/styled";
+
+const HeaderContainer = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Adjust z-index as needed */
+  display: flex;
+  height: 64px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  background-color: #374151;
+  width: 100vw;
+  padding: 16px;
+  margin-bottom:24px;
+  @media (min-width: 768px) {
+    padding: 8px 24px;
+  }
+`;
+
+const NavList = styled.ul`
+  display: flex;
+  width: 33.33%;
+  align-items: center;
+  justify-content: center;
+  margin-left: 28px;
+`;
+
+const NavItem = styled.li`
+  margin: 0 20px;
+  font-size: 1.125rem;
+`;
+
+const NavLinkStyled = styled(NavLink)`
+  color: #d1d5db; /* Default color */
+  &.active {
+    color: #fff; /* Active color */
+  }
+  &:hover {
+    color: #fff; /* Hover color */
+  }
+`;
+
+const SearchForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 66.66%;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  width: 66.66%;
+`;
+
+const SearchInput = styled.input`
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #111827;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  padding: 10px 16px;
+  width: 100%;
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+  }
+  &::placeholder {
+    color: #9ca3af;
+  }
+  @media (prefers-color-scheme: dark) {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+    &::placeholder {
+      color: #9ca3af;
+    }
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+    }
+  }
+`;
+
+const SearchButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 12px;
+  margin-left: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #3b82f6;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  &:hover {
+    background-color: #2563eb;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+  }
+  @media (prefers-color-scheme: dark) {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    &:hover {
+      background-color: #1d4ed8;
+    }
+    &:focus {
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+    }
+  }
+`;
+
 const Header = () => {
-  const navigate=useNavigate()
-  const { register,handleSubmit,reset}=useForm()
-  const dispatch=useDispatch()
-function handleSearch(data){
-  const{query}=data
-  
-  dispatch({ type: 'user/searchSong',payload: { query,navigate } });
-  
-}
-  
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+
+  const handleSearch = (data) => {
+    const { query } = data;
+    dispatch({ type: 'user/searchSong', payload: { query, navigate } });
+  };
+
   return (
-    <header className="flex h-16 shadow-sm  bg-slate-700   w-screen p-4 md:py-2 md:px-6">
-      
-      <ul className="w-1/3 flex  items-center justify-center ml-7">
-        <li className="mx-5 text-lg">
-          <NavLink
-            to={"/"}
-            className={({ isActive }) =>
-              isActive ? isActiveStyles : isNotActiveStyles
-            }
-          >
+    <HeaderContainer>
+      <NavList>
+        <NavItem>
+          <NavLinkStyled to="/" activeClassName="active" exact>
             Home
-          </NavLink>
-        </li>
-        <li className="mx-5 text-lg">
-          <NavLink to={"/dashboard/home"}className={({ isActive }) =>
-              isActive ? isActiveStyles : isNotActiveStyles
-            }>
-              Dashboard
-            
-          </NavLink>
-        </li>
-     
-      </ul>
-      <form className="col-span-8 flex  items-center justify-between mx-auto w-2/3" onSubmit={handleSubmit(handleSearch)}>   
-    <div className=" flex w-2/3">
-        
-        <input {...register("query")} type="text" id="voice-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search by Song,Artist and Genre" required />
-        <button type="submit" className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-       <Search className='w-4 h-4 me-2'/>
-      
-    </button>
-    </div>
-    
-</form>
-     
-    </header>
+          </NavLinkStyled>
+        </NavItem>
+        <NavItem>
+          <NavLinkStyled to="/dashboard/home" activeClassName="active">
+            Dashboard
+          </NavLinkStyled>
+        </NavItem>
+      </NavList>
+      <SearchForm onSubmit={handleSubmit(handleSearch)}>
+        <InputContainer>
+          <SearchInput
+            {...register("query")}
+            type="text"
+            placeholder="Search by Song, Artist, and Genre"
+            required
+          />
+          <SearchButton type="submit">
+            <Search className="w-4 h-4 me-2" />
+          </SearchButton>
+        </InputContainer>
+      </SearchForm>
+    </HeaderContainer>
   );
 };
 

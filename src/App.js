@@ -1,38 +1,54 @@
 import { Route, Routes } from "react-router-dom";
-
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import MusicPlayer from "./components/MusicPlayer";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Dashboard from "./page/dashboard/Dashboard";
 import Home from "./page/Home";
 import SearchPage from "./page/SearchPage";
-function App() {
-  
-  const isSongPlaying = useSelector((state) => state.user.isSongPlaying);
-  
-  
 
-  
+const AppContainer = styled.div`
+  height: auto;
+  min-width: 680px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MusicPlayerContainer = styled(motion.div)`
+  position: fixed;
+  min-width: 700px;
+  height: 6rem; // Adjusted to match the original 'h-26' class
+  inset: auto 0 0 0;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+function App() {
+  const isSongPlaying = useSelector((state) => state.user.isSongPlaying);
+
   return (
     <AnimatePresence mode="wait">
-      <div className=" h-auto min-w-[680px] bg-primary flex justify-center items-center ">
+      <AppContainer>
         <Routes>
-          {/* <Route path="/login" element={<Login setAuth={setAuth} />} /> */}
           <Route path="/*" element={<Home />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/search" element={<SearchPage/>}/>
         </Routes>
         {isSongPlaying && (
-          <motion.div
+          <MusicPlayerContainer
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`fixed min-w-[700px] h-26 inset-x-0 bottom-0 bg-cardOverlay drop-shadow-2xl backdrop-blur-md flex items-center justify-center`}
           >
             <MusicPlayer />
-          </motion.div>
+          </MusicPlayerContainer>
         )}
-      </div>
+      </AppContainer>
     </AnimatePresence>
   );
 }

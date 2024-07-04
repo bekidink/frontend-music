@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import PageRouter from "../utils/PageRouter";
-// const baseURL = "https://node-backend-ldyo.onrender.com/";
-const baseURL='http://127.0.0.1:8000/'
+const baseURL = "https://node-backend-ldyo.onrender.com/";
+// const baseURL='http://127.0.0.1:8000/'
 
 // api for get stat
 export const getStat = async () => {
