@@ -17,7 +17,45 @@ const PlayerContainer = styled.div(
     width: "100%",
     padding: "1rem",
     position: "relative",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      flex-direction: column;
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+  `
+);
+
+const TopRow = styled.div(
+  {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.75rem",
+    width: "100%",
+  },
+  css`
+    @media (max-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+    }
+  `
+);
+
+const BottomRow = styled.div(
+  {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    gap: "0.75rem",
+  },
+  css`
+    @media (max-width: 768px) {
+      justify-content: space-between;
+      width: 100%;
+    }
+  `
 );
 
 const SongImage = styled.img(
@@ -26,30 +64,65 @@ const SongImage = styled.img(
     height: "5rem",
     objectFit: "cover",
     borderRadius: "0.5rem",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      width: 2rem;
+      height: 2rem;
+    }
+  `
 );
+
 
 const SongInfo = styled.div(
   {
     display: "flex",
     flexDirection: "column",
     alignItems: "start",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+  `
 );
+
+const SongTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+`;
 
 const SongTitle = styled.p(
   {
     fontSize: "1rem",
     color: "#6B7280",
     fontWeight: "600",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+    }
+  `
 );
 
 const ArtistInfo = styled.p(
   {
     color: "#6B7280",
     fontWeight: "600",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      font-size: 0.75rem;
+    }
+  `
 );
 
 const IconWrapper = styled(motion.i)(
@@ -59,13 +132,26 @@ const IconWrapper = styled(motion.i)(
     "&:hover": {
       color: "#1E293B",
     },
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
+    }
+  `
 );
 
 const StyledAudioPlayer = styled(AudioPlayer)(
   {
     flex: 1,
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      width: 100%;
+      .rhap_container {
+        box-shadow: none;
+      }
+    }
+  `
 );
 
 const PlaylistWrapper = styled.div(
@@ -84,7 +170,15 @@ const PlaylistWrapper = styled.div(
     borderRadius: "0.5rem",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     backgroundColor: "#1E293B",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      left: 0.5rem;
+      bottom: 4rem;
+      width: calc(100% - 1rem);
+      maxWidth: calc(100% - 1rem);
+    }
+  `
 );
 
 const PlaylistItem = styled(motion.div)(
@@ -98,7 +192,12 @@ const PlaylistItem = styled(motion.div)(
     "&:hover": {
       backgroundColor: "#F3F4F6",
     },
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      padding: 0.5rem;
+    }
+  `
 );
 
 const SongText = styled.p(
@@ -106,14 +205,24 @@ const SongText = styled.p(
     fontSize: "1rem",
     color: "#1E293B",
     fontWeight: "600",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+    }
+  `
 );
 
 const CategoryText = styled.p(
   {
     color: "#6B7280",
     fontWeight: "600",
-  }
+  },
+  css`
+    @media (max-width: 768px) {
+      font-size: 0.75rem;
+    }
+  `
 );
 
 const MusicPlayer = () => {
@@ -157,23 +266,27 @@ const MusicPlayer = () => {
 
   return (
     <PlayerContainer>
-      <SongImage src={imageUrl} alt="Song" />
-      <SongInfo>
-        <SongTitle>{songName?.length > 15 ? songName.slice(0, 15) : songName}</SongTitle>
-        <ArtistInfo>{artistName}
-          <span>{albumName}</span>
-        </ArtistInfo>
-        <IconWrapper whileTap={{ scale: 0.8 }} onClick={() => setIsPlayList(!isPlayList)}>
-          <RiPlayListFill />
-        </IconWrapper>
-      </SongInfo>
-      <StyledAudioPlayer
-        src={audioUrl}
-        onPlay={() => console.log("is playing")}
-        autoPlay={false}
-        showSkipControls={true}
-      />
-      <IoClose onClick={closePlayer} />
+      <TopRow>
+        <SongImage src={imageUrl} alt="Song" />
+        <SongInfo>
+          <SongTextWrapper>
+            <SongTitle>{songName?.length > 15 ? songName.slice(0, 15) : songName}</SongTitle>
+            <ArtistInfo>{artistName} <span>{albumName}</span></ArtistInfo>
+          </SongTextWrapper>
+          <IconWrapper whileTap={{ scale: 0.8 }} onClick={() => setIsPlayList(!isPlayList)}>
+            <RiPlayListFill />
+          </IconWrapper>
+        </SongInfo>
+      </TopRow>
+      <BottomRow>
+        <StyledAudioPlayer
+          src={audioUrl}
+          onPlay={() => console.log("is playing")}
+          autoPlay={false}
+          showSkipControls={true}
+        />
+        <IoClose onClick={closePlayer} />
+      </BottomRow>
       {isPlayList && <PlayListCard />}
     </PlayerContainer>
   );

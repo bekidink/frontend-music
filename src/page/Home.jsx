@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -16,14 +16,18 @@ const Container = styled.div`
 `;
 
 const SongsGrid = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-top: 1.25rem;
-  margin-left: 5rem;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -32,9 +36,10 @@ const SongsGrid = styled.div`
 const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
 `;
 
-// Home component to render the header and song lists
 const Home = () => {
   const dispatch = useDispatch();
   const allSongs = useSelector((state) => state.user.allSongs);
@@ -55,7 +60,7 @@ const Home = () => {
     <Container>
       <Header />
       <SongsGrid>
-        {!allSongs && (
+        {isLoading && (
           <LoadingContainer>
             <CircularProgress />
           </LoadingContainer>

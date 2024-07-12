@@ -33,15 +33,15 @@ const flattenData = (data) => {
 };
 
 const StyledBox = styled(Box)`
-  height: 500px;
-  width: 100%; /* Adjust width as needed */
-  
-  margin: 0 auto; /* Center align horizontally */
-  & .actions {
-    color: text.secondary;
-  }
-  & .textPrimary {
-    color: text.primary;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 768px) {
+    padding: 10px;
   }
 `;
 
@@ -133,6 +133,7 @@ const FullFeaturedCrudGrid = () => {
           rows={searchQuery ? filteredRows : rows}
           columns={columns}
           autoHeight
+          autoPageSize
         />
       )}
     </StyledBox>

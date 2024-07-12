@@ -22,9 +22,12 @@ const Container = styled.div`
 
 const FormContainer = styled.form`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
   width: 100%;
+   @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 const Section = styled.div`

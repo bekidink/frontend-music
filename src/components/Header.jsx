@@ -8,53 +8,70 @@ import styled from "@emotion/styled";
 const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
-  z-index: 1000; /* Adjust z-index as needed */
+  z-index: 1000;
   display: flex;
-  height: 64px;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  width: 100%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   background-color: #374151;
-  width: 100vw;
-  padding: 16px;
-  margin-bottom:24px;
+  padding: 8px 16px;
+  margin-bottom: 24px;
+
   @media (min-width: 768px) {
-    padding: 8px 24px;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 24px;
   }
 `;
 
 const NavList = styled.ul`
   display: flex;
-  width: 33.33%;
   align-items: center;
-  justify-content: center;
-  margin-left: 28px;
+  margin: 8px 0;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
 `;
 
 const NavItem = styled.li`
-  margin: 0 20px;
-  font-size: 1.125rem;
+  margin: 0 10px;
+  font-size: 1rem;
+
+  @media (min-width: 768px) {
+    margin: 0 20px;
+    font-size: 1.125rem;
+  }
 `;
 
 const NavLinkStyled = styled(NavLink)`
-  color: #d1d5db; /* Default color */
+  color: #d1d5db;
   &.active {
-    color: #fff; /* Active color */
+    color: #fff;
   }
   &:hover {
-    color: #fff; /* Hover color */
+    color: #fff;
   }
 `;
 
 const SearchForm = styled.form`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 66.66%;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 8px;
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const InputContainer = styled.div`
   display: flex;
-  width: 66.66%;
+  flex-grow: 1;
 `;
 
 const SearchInput = styled.input`
@@ -65,6 +82,7 @@ const SearchInput = styled.input`
   border-radius: 8px;
   padding: 10px 16px;
   width: 100%;
+
   &:focus {
     outline: none;
     border-color: #3b82f6;
@@ -73,6 +91,7 @@ const SearchInput = styled.input`
   &::placeholder {
     color: #9ca3af;
   }
+
   @media (prefers-color-scheme: dark) {
     background-color: #374151;
     border-color: #4b5563;
@@ -98,6 +117,7 @@ const SearchButton = styled.button`
   background-color: #3b82f6;
   border-radius: 8px;
   border: 1px solid #3b82f6;
+
   &:hover {
     background-color: #2563eb;
   }
@@ -105,9 +125,11 @@ const SearchButton = styled.button`
     outline: none;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
   }
+
   @media (prefers-color-scheme: dark) {
     background-color: #2563eb;
     border-color: #2563eb;
+
     &:hover {
       background-color: #1d4ed8;
     }
@@ -131,12 +153,12 @@ const Header = () => {
     <HeaderContainer>
       <NavList>
         <NavItem>
-          <NavLinkStyled to="/" activeClassName="active" exact>
+          <NavLinkStyled to="/" exact>
             Home
           </NavLinkStyled>
         </NavItem>
         <NavItem>
-          <NavLinkStyled to="/dashboard/home" activeClassName="active">
+          <NavLinkStyled to="/dashboard/home">
             Dashboard
           </NavLinkStyled>
         </NavItem>
@@ -150,7 +172,7 @@ const Header = () => {
             required
           />
           <SearchButton type="submit">
-            <Search className="w-4 h-4 me-2" />
+            <Search />
           </SearchButton>
         </InputContainer>
       </SearchForm>
