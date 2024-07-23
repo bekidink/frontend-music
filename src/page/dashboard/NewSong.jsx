@@ -10,6 +10,7 @@ import AudioInput from "../../components/form/AudioInput";
 import DisableButton from "../../components/form/DisableButton";
 import { getOneSong } from "../../api";
 import styled from "@emotion/styled";
+import capitalize from "../../utils/capitalize";
 
 const Container = styled.div`
   display: flex;
@@ -108,19 +109,23 @@ const DashboardNewSong = ({ isEdit }) => {
       return;
     }
     setIsLoading(true);
+    const capitalizedArtistName = capitalize(formData.artistName);
+  const capitalizedAlbumName = capitalize(formData.albumName);
+  const capitalizedSongName = capitalize(formData.songName);
+  const capitalizedCategory = capitalize(formData.category);
     const songData = {
-      artistName: formData.artistName,
-      artistImageURL: artistImageCover,
+      artistName: capitalizedArtistName,
+      // artistImageURL: artistImageCover,
       albums: [
         {
-          albumName: formData.albumName,
-          albumImageURL: albumImageCover,
+          albumName: capitalizedAlbumName,
+          // albumImageURL: albumImageCover,
           songs: [
             {
-              songName: formData.songName,
+              songName: capitalizedSongName,
               songImageURL: songImageCover,
               songURL: audioImageCover,
-              category: formData.category,
+              category:capitalizedCategory,
             },
           ],
         },
@@ -131,9 +136,9 @@ const DashboardNewSong = ({ isEdit }) => {
     if (isEdit) {
       data = {
         artistName: formData.artistName,
-        artistImageURL: artistImageCover,
+        // artistImageURL: artistImageCover,
         albumName: formData.albumName,
-        albumImageURL: albumImageCover,
+        // albumImageURL: albumImageCover,
         songName: formData.songName,
         songImageURL: songImageCover,
         songURL: audioImageCover,
@@ -151,6 +156,7 @@ const DashboardNewSong = ({ isEdit }) => {
       dispatch({ type: "user/saveNewSong", payload: { songData, navigate } });
       dispatch({ type: 'user/fetchAllSongs' });
     }
+    setIsLoading(false);
   };
 
   return (
@@ -158,50 +164,29 @@ const DashboardNewSong = ({ isEdit }) => {
       <FormProvider {...methods}>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <Section>
-            <SectionTitle>Artist Details</SectionTitle>
+            <SectionTitle>Artist & Album  Details</SectionTitle>
             <TextInput
               name="artistName"
               placeholder="Artist Name"
               register={register}
               error={errors.artistName}
             />
-            <ImageInput
-              name="artistImage"
-              isImageLoading={isArtistImageLoading}
-              setIsImageLoading={setIsArtistImageLoading}
-              imageUploadProgress={imageUploadProgress}
-              setImageUploadingProgress={setImageUploadingProgress}
-              ImageCover={artistImageCover}
-              setImageCover={setArtistImageCover}
-            />
-          </Section>
-          <Section>
-            <SectionTitle>Album Details</SectionTitle>
             <TextInput
               name="albumName"
               placeholder="Album Name"
               register={register}
               error={errors.albumName}
             />
-            <ImageInput
-              name="albumImage"
-              isImageLoading={isAlbumImageLoading}
-              setIsImageLoading={setIsAlbumImageLoading}
-              imageUploadProgress={imageUploadProgress}
-              setImageUploadingProgress={setImageUploadingProgress}
-              ImageCover={albumImageCover}
-              setImageCover={setAlbumImageCover}
-            />
           </Section>
           <Section>
-            <SectionTitle>Song Details</SectionTitle>
+          <SectionTitle>Song Details</SectionTitle>
             <TextInput 
               name="songName"
               placeholder="Song Name"
               register={register}
               error={errors.songName}
             />
-            <ImageInput
+             <ImageInput
               name="songImage"
               isImageLoading={isImageLoading}
               setIsImageLoading={setIsImageLoading}
@@ -209,6 +194,24 @@ const DashboardNewSong = ({ isEdit }) => {
               setImageUploadingProgress={setImageUploadingProgress}
               ImageCover={songImageCover}
               setImageCover={setSongImageCover}
+            />
+            {/* <ImageInput
+              name="albumImage"
+              isImageLoading={isAlbumImageLoading}
+              setIsImageLoading={setIsAlbumImageLoading}
+              imageUploadProgress={imageUploadProgress}
+              setImageUploadingProgress={setImageUploadingProgress}
+              ImageCover={albumImageCover}
+              setImageCover={setAlbumImageCover}
+            /> */}
+          </Section>
+          <Section>
+          <SectionTitle>Song Details</SectionTitle>
+          <TextInput
+              name="category"
+              placeholder="Genre Name"
+              register={register}
+              error={errors.category}
             />
             <AudioInput
               name="songAudio"
@@ -219,12 +222,7 @@ const DashboardNewSong = ({ isEdit }) => {
               setIsAudioLoading={setIsAudioLoading}
               isAudioLoading={isAudioLoading}
             />
-            <TextInput
-              name="category"
-              placeholder="Genre Name"
-              register={register}
-              error={errors.category}
-            />
+           
           </Section>
           <ButtonContainer>
             {isLoading ? (

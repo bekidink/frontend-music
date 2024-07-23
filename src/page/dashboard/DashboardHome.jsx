@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import StatisticsDisplay from "../../components/table/StatTable";
+import Loader from "../../components/Loader";
 
 const DashboardHome = () => {
   const [value, setValue] = React.useState(0);
@@ -22,7 +23,7 @@ const DashboardHome = () => {
   return (
 
 <div className="App">
-  {!stat && <CircularProgress/>}
+  {!stat && <Loader/>}
       {stat&& <StatisticsDisplay data={stat} />}
     </div>
   );

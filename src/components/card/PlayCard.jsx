@@ -21,8 +21,8 @@ const Card = styled(motion.div)`
 `;
 
 const ImageContainer = styled.div`
-  width: 10rem;
-  min-width: 160px;
+  width: 100%;
+  // min-width: 160px;
   height: 10rem;
   min-height: 160px;
   border-radius: 0.5rem;

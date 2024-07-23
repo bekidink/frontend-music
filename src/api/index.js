@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const baseURL = "https://node-backend-ldyo.onrender.com/";
-// const baseURL='http://127.0.0.1:8000/'
+// const baseURL = "https://node-backend-ldyo.onrender.com/";
+export const baseURL='http://127.0.0.1:8000/'
 
 // api for get stat
 export const getStat = async () => {
@@ -32,6 +32,7 @@ export const saveNewSong = async (data,navigate) => {
     }
     return res;
   } catch (error) {
+    toast.error(error.response.data.message)
     return null;
   }
 };
@@ -79,8 +80,10 @@ export const updateSong = async (data, id,navigate) => {
 export const deleteSong = async (id) => {
   try {
     const res = axios.delete(`${baseURL}api/song/${id}`);
+    toast.success("Song Deleted SuccessFully")
     return res;
   } catch (error) {
+    toast.error(error.response.data.message)
     return null;
   }
 };

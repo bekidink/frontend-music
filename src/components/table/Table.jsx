@@ -10,6 +10,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+import Loader from '../Loader';
+import { baseURL } from '../../api';
+import EmptyMusic from '../Empty';
 
 // Initial rows will be empty and fetched from the API
 const initialRows = [];
@@ -25,10 +28,12 @@ const flattenData = (data) => {
           albumName: album.albumName,
           songName: song.songName,
           genre: song.category,
+          songImageURL: song.songImageURL
         });
       });
     });
   });
+  
   return rows;
 };
 
@@ -51,13 +56,16 @@ const FullFeaturedCrudGrid = () => {
   const allSongs = useSelector((state) => state.user.allSongs);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+ const[loading,setLoading]=useState(false)
   // Fetch song data
   const fetchSongs = async () => {
     try {
-      const response = await axios.get('https://node-backend-ldyo.onrender.com/api/song/');
+       setLoading(true)
+      const response = await axios.get(`${baseURL}api/song`);
+      setLoading(false)
       return flattenData(response.data);
     } catch (error) {
+      setLoading(false)
       console.error('Error fetching songs:', error);
       return [];
     }
@@ -84,6 +92,22 @@ const FullFeaturedCrudGrid = () => {
     { field: 'albumName', headerName: 'Album Name', width: 200, editable: true },
     { field: 'songName', headerName: 'Song Name', width: 200, editable: true },
     { field: 'genre', headerName: 'Genre', width: 200, editable: true },
+    {
+      field: 'songImageURL',
+      headerName: 'Song Image',
+      width: 150,
+      renderCell: (params) => (
+        <img
+        src={params.value}
+        alt="Song"
+        style={{
+          width: '70%',
+          height: '100%',
+          borderRadius: '5%',
+        }}
+      />
+      ),
+    },
     {
       field: 'actions',
       type: 'actions',
@@ -114,7 +138,9 @@ const FullFeaturedCrudGrid = () => {
   );
 
   return (
-    <StyledBox>
+   <>
+   
+   <StyledBox>
       <TextField
         id="search-bar"
         label="Search by Song Name"
@@ -126,8 +152,11 @@ const FullFeaturedCrudGrid = () => {
         style={{ width: '300px' }} // Adjust width as needed
         sx={{ mb: 2 }} // Add margin bottom if desired
       />
+   {loading && <Loader/>}
+      
       {!rows.length ? (
-        <CircularProgress />
+        // <Loader />
+        <EmptyMusic/>
       ) : (
         <DataGrid
           rows={searchQuery ? filteredRows : rows}
@@ -137,6 +166,7 @@ const FullFeaturedCrudGrid = () => {
         />
       )}
     </StyledBox>
+   </>
   );
 };
 

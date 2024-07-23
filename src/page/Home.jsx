@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
-
+import PropagateLoader from "react-spinners/PropagateLoader";
+import Loader from "../components/Loader";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -33,12 +34,7 @@ const SongsGrid = styled.div`
   }
 `;
 
-const LoadingContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -54,17 +50,18 @@ const Home = () => {
     } else {
       setIsLoading(false);
     }
+    setIsLoading(false);
   }, [allSongs, dispatch]);
 
   return (
     <Container>
       <Header />
-      <SongsGrid>
-        {isLoading && (
-          <LoadingContainer>
-            <CircularProgress />
-          </LoadingContainer>
+      {isLoading && (
+         <Loader/>
         )}
+        
+      <SongsGrid>
+        
         
         {allSongs && allSongs.map((artist, i) =>
           artist.albums.map((album, index) => (

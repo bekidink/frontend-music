@@ -50,7 +50,7 @@ const NavItem = styled.li`
 const NavLinkStyled = styled(NavLink)`
   color: #d1d5db;
   &.active {
-    color: #fff;
+    color: #3b82f6;
   }
   &:hover {
     color: #fff;

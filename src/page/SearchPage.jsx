@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 
 import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
+import Loader from "../components/Loader";
 
 const Container = styled.div`
   width: 100vw;
@@ -117,14 +118,13 @@ export default function SearchPage() {
           )}
         </NavList>
       </NavWrapper>
-      <SongsGrid>
-        {isSearch && (
-          <div css={{ display: 'flex', alignItems: 'center' }}>
-            <CircularProgress />
-          </div>
+      {isSearch && (
+          <Loader/>
         )}
+      <SongsGrid>
+       
         {!isSearch && searchBy && searchSong?.length===0 && (
-          <div>No Search Found For {searchBy}</div>
+          <div className="text-center">No Search Found For {searchBy}</div>
         )}
         {!isSearch && searchSong && searchSong.map((artist, i) =>
           artist.albums.map((album, index) => (
