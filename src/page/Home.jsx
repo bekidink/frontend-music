@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
 import PropagateLoader from "react-spinners/PropagateLoader";
 import Loader from "../components/Loader";
+import EmptyMusic from "../components/Empty";
 const Container = styled.div`
   width: 100%;
   height: auto;
@@ -59,7 +60,7 @@ const Home = () => {
       {isLoading && (
          <Loader/>
         )}
-        
+        {!allSongs && <EmptyMusic/>}
       <SongsGrid>
         
         

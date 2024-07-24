@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import Header from "../components/Header";
 import SongsContainer from "../components/HomeContainer";
 import Loader from "../components/Loader";
+import EmptyMusic from "../components/Empty";
 
 const Container = styled.div`
   width: 100vw;
@@ -124,7 +125,11 @@ export default function SearchPage() {
       <SongsGrid>
        
         {!isSearch && searchBy && searchSong?.length===0 && (
+          <>
           <div className="text-center">No Search Found For {searchBy}</div>
+          <EmptyMusic/>
+          </>
+          
         )}
         {!isSearch && searchSong && searchSong.map((artist, i) =>
           artist.albums.map((album, index) => (
