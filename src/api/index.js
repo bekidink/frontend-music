@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // const baseURL = "https://node-backend-ldyo.onrender.com/";
-export const baseURL='http://127.0.0.1:8000/'
+export const baseURL='https://addisbackend.onrender.com/'
 
 // api for get stat
 export const getStat = async () => {
