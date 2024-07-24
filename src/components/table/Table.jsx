@@ -84,6 +84,8 @@ const FullFeaturedCrudGrid = () => {
 
   const handleDeleteClick = (id) => async () => {
     dispatch({ type: 'user/deleteSong', payload: { id } });
+    dispatch({ type: 'user/fetchAllSongs' });
+    dispatch({type:'stat'})
     setRows((prevRows) => prevRows.filter((row) => row.id !== id));
   };
 

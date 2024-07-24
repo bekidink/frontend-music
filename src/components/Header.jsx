@@ -26,7 +26,18 @@ const HeaderContainer = styled.header`
     padding: 0 24px;
   }
 `;
+const LogoImage = styled.img`
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 
+  @media (min-width: 768px) {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+  }
+`;
 const NavList = styled.ul`
   display: flex;
   align-items: center;
@@ -151,7 +162,11 @@ const Header = () => {
 
   return (
     <HeaderContainer>
+      
       <NavList>
+      <NavItem>
+          <LogoImage src="/musical.png" alt="Logo" className="object-cover" />
+        </NavItem>
         <NavItem>
           <NavLinkStyled to="/" exact>
             Home

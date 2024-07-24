@@ -149,12 +149,13 @@ const DashboardNewSong = ({ isEdit }) => {
       if (data) {
         console.log(data);
         dispatch({ type: 'user/updateSong', payload: { data, id, navigate } });
-      } else {
-        console.log("no updated data");
-      }
+        dispatch({ type: 'user/fetchAllSongs' });
+      dispatch({type:'stat'})
+      } 
     } else {
       dispatch({ type: "user/saveNewSong", payload: { songData, navigate } });
       dispatch({ type: 'user/fetchAllSongs' });
+      dispatch({type:'stat'})
     }
     setIsLoading(false);
   };
