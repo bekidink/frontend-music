@@ -60,7 +60,7 @@ const Home = () => {
       {isLoading && (
          <Loader/>
         )}
-        {!allSongs && <EmptyMusic/>}
+        {!isLoading && !allSongs && <EmptyMusic/>}
       <SongsGrid>
         
         
